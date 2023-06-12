@@ -194,6 +194,7 @@ class Matrix
 
         void determinante (double* det)
         {
+            *det = 0;
             if(this->num_cols != this->num_rows){
                 printf("la matrice non è quadrata, non è possibile calcolarne il determinante\n");
                 return;
@@ -203,40 +204,38 @@ class Matrix
                 printf("not possible to calculate\n");
             }
 
-            if(num_cols == 1){
-                *det = matrix[0][0];
-                return;
+            switch(num_cols)
+            {
+                case 1:
+                    *det = matrix[0][0];
+                    return;
+                case 2:
+                    *det = (matrix[0][0] * matrix[1][1]) -
+                           (matrix[1][0] * matrix[0][1]);
+                    return;
+                case 3:
+                    *det = (matrix[0][0] * matrix[1][1] * matrix[2][2]) +
+                           (matrix[0][1] * matrix[1][2] * matrix[2][0]) +
+                           (matrix[0][2] * matrix[1][0] * matrix[2][1]) -
+                           (matrix[2][0] * matrix[1][1] * matrix[0][2]) -
+                           (matrix[2][1] * matrix[1][2] * matrix[0][0]) -
+                           (matrix[2][2] * matrix[1][0] * matrix[0][1]);
+                        return;
             }
 
-            if(num_cols == 2){
-                *det = (matrix[0][0] * matrix[1][1]) -
-                       (matrix[1][0] * matrix[0][1]);
-                return;
-            }
 
-            if(num_cols == 3){
-                *det = (matrix[0][0] * matrix[1][1] * matrix[2][2]) +
-                   (matrix[0][1] * matrix[1][2] * matrix[2][0]) +
-                   (matrix[0][2] * matrix[1][0] * matrix[2][1]) -
-                   (matrix[2][0] * matrix[1][1] * matrix[0][2]) -
-                   (matrix[2][1] * matrix[1][2] * matrix[0][0]) -
-                   (matrix[2][2] * matrix[1][0] * matrix[0][1]);
-                   return;
-            }
-
-
-            printf("\nMatrice %dx%d\n", num_cols, num_cols);
-            this->print();
-            printf("\n");
+            // printf("\nMatrice %dx%d\n", num_cols, num_cols);
+            // this->print();
+            // printf("\n");
             for(unsigned short j=0; j<num_cols; j++)
             {
-                printf("Calcolo il cofattore di [%d,%d] della matrice %dx%d: \n",j,0,num_cols, num_cols);
+                // printf("Calcolo il cofattore di [%d,%d] della matrice %dx%d: \n",j,0,num_cols, num_cols);
                 double val = this->cofattore(j,0) * this->matrix[j][0];
                 *det += val;
                 printf("determinante locale: %f\n", val);
 
             }
-            printf("\n");
+            // printf("\n");
         }
 
         double cofattore(unsigned int ix, unsigned int iy)
@@ -261,7 +260,7 @@ class Matrix
             double det;
             M.determinante(&det);
 
-            printf("cof (%d,%d): %f\n", ix, iy, (double) det * pow((-1),(ix+iy)));
+            // printf("cof (%d,%d): %f\n", ix, iy, (double) det * pow((-1),(ix+iy)));
 
             return (double) det * pow((-1),(ix+iy));
         }
@@ -271,11 +270,6 @@ class Matrix
             // STEP 0 -> controllare se la matrice è quadrata
             if(this->num_cols != this->num_rows){
                 printf("la matrice non è quadrata, quindi non è invertibile\n");
-                return Matrix(0);
-            }
-
-            if(num_cols > 3){
-                printf("not implemented yet! sorry\n");
                 return Matrix(0);
             }
 
@@ -300,7 +294,7 @@ class Matrix
                 }
             }
 
-            Matrix M(3,3,inverted_matrix);
+            Matrix M(this->num_cols,this->num_rows,inverted_matrix);
             M = M.transpose();
             return M * (1/det);
         }

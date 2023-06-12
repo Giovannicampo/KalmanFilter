@@ -41,6 +41,11 @@ int main ()
     // printf("determinante di M6: %f", det_m6);
     // printf("\n");
 
+    // M6 = M6.transpose();
+    // M6.determinante(&det_m6);
+    // printf("determinante di M6: %f", det_m6);
+    // printf("\n");
+
     // M6.invert3x3();
     // M6.print();
 
@@ -59,9 +64,23 @@ int main ()
                    0.0, 2.0, 2.0, 0.0,
                    1.0, 2.0, 0.0, 0.0};
     Matrix M8(4,4,m8);
+    M8.print();
+    printf("\n");
     double det = 0;
     M8.determinante(&det);
-    printf("det di M7: %f\n", det);          
+    printf("det di M7: %f\n\n", det);       
+
+    M8 = M8.transpose();
+    M8.print();
+    printf("\n");
+    M8.determinante(&det);
+    printf("det di M7: %f\n\n", det);  
+
+    M8 = M8.invert();
+    M8.print();
+    printf("\n");
+    M8.determinante(&det);
+    printf("det di M7: %f\n\n", det);  
 
     // KalmanOdometry ko(270.0);
     // ko.prediction(79.6,79.6005);
