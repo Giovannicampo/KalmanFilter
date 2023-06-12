@@ -44,6 +44,32 @@ int main ()
     // M6.invert3x3();
     // M6.print();
 
-    KalmanOdometry ko(270.0);
+    // double m7[] = {2.0, 1.0, 5.0, -1.0, 6.0,
+    //                1.0, 4.0, 0.0, 3.0, 7.0,
+    //                1.0, 0.0, 0.0, -7.0, 9.0,
+    //                3.0, 2.0, 1.0, 0.0, 8.0,
+    //                1.0, 1.1, 0.0, 3.0, 4.0};
+    // Matrix M7(5,5,m7);
+    // double det = 0;
+    // M7.determinante(&det);
+    // printf("det di M7: %f\n", det);
+
+    double m8[] = {1.0, 2.0, 1.0, 1.0,
+                   2.0, 1.0, 3.0, 1.0,
+                   0.0, 2.0, 2.0, 0.0,
+                   1.0, 2.0, 0.0, 0.0};
+    Matrix M8(4,4,m8);
+    double det = 0;
+    M8.determinante(&det);
+    printf("det di M7: %f\n", det);          
+
+    // KalmanOdometry ko(270.0);
+    // ko.prediction(79.6,79.6005);
+
+    // double delta_t = 2.5e-3;
+
+    // double t = 0.0;
+
+
 }
 
