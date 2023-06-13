@@ -123,6 +123,10 @@ class KalmanOdometry
 
     void measure(Matrix* measure)
     {
+        if(measure == nullptr){
+            printf("[KalmanOdometry] Error\n");
+            return;
+        }
         (*measure) = measure->transpose();
         (*X) = (*X) + (*K) * ((*measure) - (*H) * (*X));
         this->x_r = X->getMatrix()[0][0];

@@ -93,7 +93,7 @@ class Matrix
         Matrix operator*(const Matrix& m)
         {
             if(this->num_cols != m.rows()){
-                printf("Not possible to multiply!");
+                printf("[Matrix] Not possible to multiply!");
                 return Matrix(0);
             }
 
@@ -145,7 +145,7 @@ class Matrix
         Matrix operator+(const Matrix& m)
         {
             if(this->num_rows != m.rows() || this->num_cols != m.cols()){
-                printf("Not possible to sum!");
+                printf("[Matrix] Not possible to sum!");
                 return Matrix(0);
             }
 
@@ -170,7 +170,7 @@ class Matrix
         Matrix operator-(const Matrix& m)
         {
             if(this->num_rows != m.rows() || this->num_cols != m.cols()){
-                printf("Not possible to sum!");
+                printf("[Matrix] Not possible to subtract!");
                 return Matrix(0);
             }
 
@@ -196,12 +196,12 @@ class Matrix
         {
             *det = 0;
             if(this->num_cols != this->num_rows){
-                printf("la matrice non è quadrata, non è possibile calcolarne il determinante\n");
+                printf("[Matrix] la matrice non è quadrata, non è possibile calcolarne il determinante\n");
                 return;
             }
 
             if(num_cols < 0){
-                printf("not possible to calculate\n");
+                printf("[Matrix] not possible to calculate\n");
             }
 
             switch(num_cols)
@@ -232,7 +232,7 @@ class Matrix
                 // printf("Calcolo il cofattore di [%d,%d] della matrice %dx%d: \n",j,0,num_cols, num_cols);
                 double val = this->cofattore(j,0) * this->matrix[j][0];
                 *det += val;
-                printf("determinante locale: %f\n", val);
+                printf("[Matrix] determinante locale: %f\n", val);
 
             }
             // printf("\n");
@@ -269,7 +269,7 @@ class Matrix
         {
             // STEP 0 -> controllare se la matrice è quadrata
             if(this->num_cols != this->num_rows){
-                printf("la matrice non è quadrata, quindi non è invertibile\n");
+                printf("[Matrix] la matrice non è quadrata, quindi non è invertibile\n");
                 return Matrix(0);
             }
 
@@ -277,7 +277,7 @@ class Matrix
             double det;
             this->determinante(&det);
             if(det == 0){
-                printf("il determinante è nullo, quindi non è invertibile\n");
+                printf("[Matrix] il determinante è nullo, quindi non è invertibile\n");
                 return Matrix(0);
             }
 
