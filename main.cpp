@@ -1,5 +1,7 @@
 #include "lib/Matrix.cpp"
 #include "lib/KalmanOdometry.cpp"
+#include <iostream>
+#include <iomanip>
 #include <map>
 #include <random>
 
@@ -10,6 +12,9 @@ int main ()
     std::random_device rd{};
     std::mt19937 gen{rd()};
     std::normal_distribution<> d{0.0,measure_error_std};
+
+    std::map<int, int> hist_measure{};
+    std::map<int, int> hist_prediction{};
 
     // double delta_t = 2.5e-3;
     int delta_t = 25;
@@ -40,16 +45,37 @@ int main ()
         ko->prediction(delta_l, delta_r);
 
         double _measure = 100.0 + std::round(d(gen));
+        ++hist_measure[_measure];
+        // printf("[Main] Normal random: %f\n", _measure);
         
         _measures[1] = _measure;
-        Measures = new Matrix(1,3,_measures);
+
+        // già trasposta
+        Measures = new Matrix(3,1,_measures);
 
         ko->measure(Measures);
         ko->update();
 
-        printf("x %f, y %f\n", ko->x_r, ko->y_r);
+        ++hist_prediction[ko->y_r];
+
+        // printf("[Main] x %f, y %f\n", ko->x_r, ko->y_r);
         t = t + delta_t;
         i++;
+    }
+
+    printf("KALMAN FILTER\n\n");
+
+    printf("[Main] MEASURES HISTOGRAM\n");
+    for(auto p : hist_measure) {
+        std::cout << std::setw(2)
+                  << p.first << ' ' << std::string(p.second/50, '*') << '\n';
+    }
+    printf("\n");
+
+    printf("[Main] PREDICTION HISTOGRAM\n");
+    for(auto p : hist_prediction) {
+        std::cout << std::setw(2)
+                  << p.first << ' ' << std::string(p.second/50, '*') << '\n';
     }
 }
 

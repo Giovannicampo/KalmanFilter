@@ -200,7 +200,7 @@ class Matrix
                 return;
             }
 
-            if(num_cols < 0){
+            if(num_cols < 1){
                 printf("[Matrix] not possible to calculate\n");
             }
 
