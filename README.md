@@ -26,13 +26,13 @@ The Kalman Filter need some matrices in order to work:
 
 - X is the state vector; it contains the state variables of the model:
 
-$$
+$
 X = \begin{bmatrix}
 x_R \\
 y_R \\
 \theta_R
 \end{bmatrix}
-$$
+$
 
 - Q is the covariance matrix of the uncertainty of the system; in its main diagonal, there are the variance values of the state variable:
 
@@ -435,3 +435,7 @@ It is clear how they describe the behaviour of a normal distribution.
 ![](pics/Predictions.png)
 
 The filter was able to reduce the noise coming from the encoders!
+
+
+
+## Case study
