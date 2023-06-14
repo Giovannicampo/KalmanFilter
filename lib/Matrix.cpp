@@ -224,12 +224,12 @@ class Matrix
             }
 
 
-            // printf("\nMatrice %dx%d\n", num_cols, num_cols);
+            // printf("\n[Matrix] Matrice %dx%d\n", num_cols, num_cols);
             // this->print();
             // printf("\n");
             for(unsigned short j=0; j<num_cols; j++)
             {
-                // printf("Calcolo il cofattore di [%d,%d] della matrice %dx%d: \n",j,0,num_cols, num_cols);
+                // printf("[Matrix] Calcolo il cofattore di [%d,%d] della matrice %dx%d: \n",j,0,num_cols, num_cols);
                 double val = this->cofattore(j,0) * this->matrix[j][0];
                 *det += val;
                 printf("[Matrix] determinante locale: %f\n", val);
@@ -260,7 +260,7 @@ class Matrix
             double det;
             M.determinante(&det);
 
-            // printf("cof (%d,%d): %f\n", ix, iy, (double) det * pow((-1),(ix+iy)));
+            // printf("[Matrix] cof (%d,%d): %f\n", ix, iy, (double) det * pow((-1),(ix+iy)));
 
             return (double) det * pow((-1),(ix+iy));
         }
