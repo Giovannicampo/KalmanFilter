@@ -26,23 +26,23 @@ The Kalman Filter need some matrices in order to work:
 
 - X is the state vector; it contains the state variables of the model:
 
-$$
+```math
 X = \begin{bmatrix}
 x_R \\
 y_R \\
 \theta_R
 \end{bmatrix}
-$$
+```
 
 - Q is the covariance matrix of the uncertainty of the system; in its main diagonal, there are the variance values of the state variable:
 
-$$
+```math
 Q = \begin{bmatrix}
 \sigma_{x_R}^2 & 0 & 0 \\
 0 & \sigma_{y_R}^2 & 0 \\
 0 & 0 & \sigma_{\theta_R}^2
 \end{bmatrix}
-$$
+```
 
 - R is the covariance matrix of the uncertainty of the measure; in its main diagonal, there are the variance values of the state variable:
 
