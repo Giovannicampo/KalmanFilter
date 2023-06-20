@@ -6,15 +6,15 @@
 
 ## Introduction
 
-Kalman filter is a predictive filter based on a model of the behaviour of the system. The aim of predictive filter is to reduce the measurement error on the basis of the knowledge of the system model.
+The Kalman filter is a predictive filter based on the model of the behaviour of a system. The aim of predictive filters is to reduce the measurement error on the basis of the knowledge of the system model.
 
-In order to accomplish that goal, the filter firstly performs an estimate of the state variable of the system and compares it with sensor data. The resulting error is then cyclically reduced through a PI controller in which the proportional constant (*Kp*) is updated at each iteration.  
+In order to accomplish this goal, the filter firstly performs an estimate of the state variable of the system and compares it with sensor data. The resulting error is then cyclically reduced through a PI controller in which the proportional constant (*Kp*) is updated at each iteration.  
 
-Eventually, the output of the controller is used to correct the prediction and the filter restarts.
+Eventually, the output of the controller is used to correct the prediction.
 
 ![](pics/kf.png)
 
-Our project consists in designing a Kalman filter for our two-wheeled robots, in order to make values from the optical encoders more trustworthy.
+Our project consists in designing a Kalman filter for our two-wheeled robots, in order to make values from the optical encoders more reliable.
 
  
 
@@ -174,39 +174,39 @@ Matrix transpose ()
 `invert()` returns an inverted matrix using the Laplace development algorithm.
 
 ```c++
-        Matrix invert ()
+Matrix invert ()
+{
+    // STEP 0 -> check if the matrix is squared
+    if(this->num_cols != this->num_rows){
+        printf("[Matrix] la matrice non è quadrata, quindi non è invertibile\n");
+        return Matrix(0);
+    }
+
+    // STEP 1 -> check if the matrix determinant is null
+    double det;
+    this->determinante(&det);
+    if(det == 0){
+        printf("[Matrix] il determinante è nullo, quindi non è invertibile\n");
+        return Matrix(0);
+    }
+
+    // STEP 2 -> if it is not null, the matrix is invertible
+    double inverted_matrix[this->num_cols * this->num_rows];
+    unsigned int index = 0;
+
+    for(unsigned short i=0; i<num_rows; i++)
+    {
+        for(unsigned short j=0; j<num_cols; j++)
         {
-            // STEP 0 -> controllare se la matrice è quadrata
-            if(this->num_cols != this->num_rows){
-                printf("[Matrix] la matrice non è quadrata, quindi non è invertibile\n");
-                return Matrix(0);
-            }
-
-            // STEP 1 -> controllare se il determinante della matrice è nullo
-            double det;
-            this->determinante(&det);
-            if(det == 0){
-                printf("[Matrix] il determinante è nullo, quindi non è invertibile\n");
-                return Matrix(0);
-            }
-
-            // STEP 2 -> se non è nullo, la matrice è invertibile
-            double inverted_matrix[this->num_cols * this->num_rows];
-            unsigned int index = 0;
-
-            for(unsigned short i=0; i<num_rows; i++)
-            {
-                for(unsigned short j=0; j<num_cols; j++)
-                {
-                    inverted_matrix[index] = this->cofattore(i,j);
-                    index++;
-                }
-            }
-
-            Matrix M(this->num_cols,this->num_rows,inverted_matrix);
-            M = M.transpose();
-            return M * (1/det);
+            inverted_matrix[index] = this->cofattore(i,j);
+            index++;
         }
+    }
+
+    Matrix M(this->num_cols,this->num_rows,inverted_matrix);
+    M = M.transpose();
+    return M * (1/det);
+}
 ```
 
 
@@ -317,7 +317,7 @@ Then, we define the state vector (X):
 
 ```c++
 double _x[] = {this->x_r, this->y_r, this->th_r};
-        // già trasposta
+        // already transposed
         X = new Matrix(3,1,_x);
 ```
 
@@ -439,3 +439,5 @@ The filter was able to reduce the noise coming from the encoders!
 
 
 ## Case study
+
+to continue...
