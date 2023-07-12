@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-x = [0, 75, 150, 300]
-y = [0, 14.28, 21.31, 25.68]
+x = [0, 75, 150, 300, 450]
+y = [0, 14.28, 21.31, 25.68, 30.99]
 
 plt.plot(x, y, marker='o')
 plt.xlabel('Distanza (cm)')
