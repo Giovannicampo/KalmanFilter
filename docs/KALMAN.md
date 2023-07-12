@@ -34,7 +34,7 @@ y_R \\
 \end{bmatrix}
 $$
 
-- Q is the covariance matrix of the uncertainty of the system; in its main diagonal, there are the variance values of the state variable:
+- Q is the covariance matrix of the uncertainty of the system; in its main diagonal, there are the variance values for each state variable:
 
 $$
 Q = \begin{bmatrix}
@@ -44,7 +44,9 @@ Q = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-- R is the covariance matrix of the uncertainty of the measure; in its main diagonal, there are the variance values of the state variable:
+> In the simulation the variance values of the state variables are **constant**, assuming that the system behaves the same way in every condition.
+
+- R is the covariance matrix of the uncertainty of the measure; in its main diagonal, there are the variance values for each state variable:
 
 $$
 R = \begin{bmatrix}
@@ -434,7 +436,7 @@ It is clear how they describe the behaviour of a normal distribution.
 
 ![](pics/Predictions.png)
 
-The filter was able to reduce the noise coming from the encoders!
+The filter was able to reduce the noise coming from the ToF sensors!
 
 
 
