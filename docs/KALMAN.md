@@ -44,8 +44,6 @@ Q = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-> In the simulation the variance values of the state variables are **constant**, assuming that the system behaves the same way in every condition.
-
 - R is the covariance matrix of the uncertainty of the measure; in its main diagonal, there are the variance values for each state variable:
 
 $$
