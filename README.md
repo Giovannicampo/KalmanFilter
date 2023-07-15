@@ -10,7 +10,7 @@ In order to accomplish this goal, the filter firstly performs an estimate of the
 
 Eventually, the output of the controller is used to correct the prediction.
 
-![](pics/kf.png)
+![](docs/pics/kf.png)
 
 Our project consists in designing a Kalman filter for our two-wheeled robots, in order to make values from the optical encoders more reliable.
 
