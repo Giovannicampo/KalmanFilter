@@ -22,3 +22,15 @@ Our project consists in designing a Kalman filter for our two-wheeled robots, in
 - library code for Kalman filter in [lib/](lib/)
 
 - for case study data and plots check [case_study/](case_study/)
+
+
+
+------
+
+### Authors
+
+Marco Pometti - DIEEI
+
+Giovanni Campo - DMI
+
+Andrea Galofaro - DIEEI
