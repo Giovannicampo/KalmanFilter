@@ -450,7 +450,7 @@ The filter was able to reduce the noise coming from the ToF sensors!
 
 
 
-#### Next step of our project consisted in implementing the filter in real two wheeled robot built within ARSLAB, a laboratory of University of Catania.
+#### Next step of our project consisted in implementing the filter in a real two wheeled robot built within ARSLAB, a laboratory of University of Catania.
 
 
 
@@ -472,13 +472,15 @@ First step of our work involved us in collecting ticks from the encoders of the 
 | 661.230 | 751.572 | 1499.391 | 3000.497 | 4501.506 |
 | 660.744 | 751.281 | 1499.715 | 3000.206 | 4498.885 |
 
-It is clearly visible how variance from a measure from another increases as much as the distance does.
+It is clearly visible how variance from a measure to another increases as much as the distance does.
 
 <img src="../case_study/pics/marco_melo.jpg" style="zoom: 33%;" />
 
 
 
-For calculating the variance for each measurement we used this equation:
+
+
+For calculating the variance for each measurement we used the following equation:
 $$
 \sigma^2 = \frac{\sum{(x_i - x)^2}}{N}
 $$
@@ -490,7 +492,7 @@ These are the values of variance resulted from the data:
 
 
 
-Our first thought was to use these variances directly on Q matrix (process covariance matrix), but then a problem raised. The variances were related to total distance, whilst we needed a variance value per millimeter. For doing that, we calculated by means of the minimum squared algorithm a straight line that could include by approximation all the standard deviations per millimeter.
+Our first thought was to use these variances directly on Q matrix (process covariance matrix), but then a problem raised. Since measurement error of encoders is incremental, we needed a variance value per millimeter. For doing that, we calculated by means of the minimum squared algorithm a straight line that could include by approximation all the standard deviations per millimeter.
 
 <img src="../case_study/plots/dev_stand_plot.png" style="zoom: 50%;" />
 
@@ -498,7 +500,7 @@ The following equation describes the behaviour of the straight line:
 $$
 y = 0.0002x + 0.26
 $$
-Therefore, the Q matrix will be updated as the following matrix in which the alpha factor is the angular coefficient of the equation above:
+Therefore, the Q matrix will be updated proportionally to the error based on the distance traveled by the robot:
 $$
 Q = \begin{bmatrix}
 (∆p\cdot\alpha)^2 & 0 & 0 \\
@@ -506,7 +508,13 @@ Q = \begin{bmatrix}
 0 & 0 & (∆p\cdot\alpha)^2 \\
 \end{bmatrix}
 $$
-Following this concept, as many ticks are collected in a sampling, as much the error related to the system increases.
+where ∆p is the average of the distance traveled by the two wheels and alpha is the angular coefficient that we previously calculated.
+
+
+
+
+
+
 
 
 
@@ -532,7 +540,7 @@ with a variance value of 5,389, that we used for updating the matrix R (covarian
 
 #### The second step of the work consisted in implementing the Kalman filter within the firmware of the real robot.
 
-Starting from the telemetry files of the firmware we re-implemented telemetry in motion control section of the robot in order to collect in real-time data from ToF sensor:
+We re-implemented telemetry methods in the motion control part of the robot in order to collect real-time data from ToF sensor:
 
 ```c++
 
@@ -601,6 +609,6 @@ Then, we decided to make the filter working only under certain distance threshol
 
 Our poor engineers were thinking about their decisions in life in the moment the photo was taken, but after all the project made all of us thinking how make things in the real world needs a large amount of effort and it is always important to do as much as it is possible.
 
-To sum up, the simulation of the Kalman filter was utterly successful but the implementation within the robot required us a little more of effort than expected.
+To sum up, the simulation of the Kalman filter was utterly successful but the implementation within the robot required us a little more effort than expected.
 
 Good luck to everyone wants to join our same adventure and praise for a 30L!

@@ -306,12 +306,12 @@ class Matrix
 
         void set (unsigned int _num_rows, unsigned int _num_cols, double _matrix[])
         {
-            delete this->matrix;
-            this->num_rows = _num_rows;
-            this->num_cols = _num_cols;
-            this->matrix = new double*[num_rows];
+            if ( this->num_cols != _num_cols || this->num_rows != _num_rows) {
+                printf("[Matrix] Error! Matrix cannot be setted!\n");
+                return;
+            }
+
             for(unsigned short i=0; i<num_rows; i++){
-                this->matrix[i] = new double[num_cols];
                 for(unsigned short j=0; j<num_cols; j++)
                 {
                     matrix[i][j] = _matrix[j + num_cols*i];
@@ -321,20 +321,14 @@ class Matrix
 
         void setDiagValue (unsigned int order, double value)
         {
-            delete this->matrix;
-            this->num_cols = order;
-            this->num_rows = order;
-            this->matrix = new double*[num_rows];
-            for(unsigned short i=0; i<order; i++){
-                this->matrix[i] = new double[num_cols];
-                for(unsigned short j=0; j<order; j++)
-                {
-                    if(i == j){
-                        matrix[i][j] = value;
-                        continue;
-                    }
-                    matrix[i][j] = 0.0;
-                }
+            if ( this->num_cols != order || this->num_rows != order) {
+                printf("[Matrix] Error! Matrix is not squared!\n");
+                return;
+            }
+
+            for(unsigned short i=0; i<order; i++)
+            {
+                this->matrix[i][i] = value;
             }
         }
 

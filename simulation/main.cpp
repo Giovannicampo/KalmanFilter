@@ -28,8 +28,8 @@ int main ()
     ko->y_r = 100.0;
     unsigned int i = 0;
 
-    Matrix* Measures = new Matrix(0);
     double _measures[3] = {0.0, 0.0, 0.0};
+    Matrix* Measures = new Matrix(3,1,_measures);
 
     while(t < 150000)
     {

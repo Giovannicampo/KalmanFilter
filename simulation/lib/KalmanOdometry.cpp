@@ -59,7 +59,7 @@ class KalmanOdometry
         this->y_r = 0.0;
         this-> th_r = 0.0;
 
-        // a = 0.07
+        // a = 0.0002
         this->a = 0.0002;
 
         // process covariance
