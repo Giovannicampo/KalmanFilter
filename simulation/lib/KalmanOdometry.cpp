@@ -4,8 +4,6 @@ class KalmanOdometry
 {
     public:
 
-    public:
-
     unsigned int order;
     double wheelbase;
     double wheel_factor_left;
@@ -32,6 +30,14 @@ class KalmanOdometry
 
     // prediction
     Matrix* K;
+
+    // state matrix
+    Matrix* _A;
+
+    // Identity
+    Matrix* Identity;
+
+    Matrix* S;
 
     KalmanOdometry (double _wheelbase, double wfl, double wfr)
     {
@@ -90,6 +96,19 @@ class KalmanOdometry
 
         // prediction
         K = new Matrix(0);
+
+        // state matrix
+        double _a[] = {1.0, 0.0, 0.0,
+                      0.0, 1.0, 0.0,
+                      0.0, 0.0, 1};
+        _A = new Matrix(3,3,_a);
+
+        // Identity
+        Identity = new Matrix(this->order);
+
+        // S matrix
+        S = new Matrix(0);
+
     }
 
     void prediction (double delta_left, double delta_right, double _x_r, double _y_r, double _th_r)
@@ -98,57 +117,44 @@ class KalmanOdometry
         this->y_r = _y_r;
         this->th_r = _th_r;
 
-        //printf("Wb: %f", this->wheelbase);
+        printf("Wb: %f", this->wheelbase);
 
-        //printf("[Kalman Odometry] Delta left = %f, delta right = %f\n", delta_left, delta_right);
+        printf("[Kalman Odometry] Delta left = %f, delta right = %f\n", delta_left, delta_right);
 
         double delta_l = (delta_left + delta_right) / 2.0;
         double delta_th = (delta_right - delta_left) / this->wheelbase;
 
-       // printf("[Kalman Odometry] Delta l = %f, delta th = %f\n", delta_l, delta_th);
+        printf("[Kalman Odometry] Delta l = %f, delta th = %f\n", delta_l, delta_th);
 
         double delta_x = delta_l * cos(this->th_r + delta_th / 2.0);
         double delta_y = delta_l * sin(this->th_r + delta_th / 2.0);
 
-        // printf("ci sonooo 2\n");
-
         this->x_r = this->x_r + delta_x;
         this->y_r = this->y_r + delta_y;
         this->th_r = this->th_r + delta_th;
-        //printf("[KalmanOdometry] x:%f, y:%f, th:%f\n", this->x_r, this->y_r, this->th_r);
+        printf("[KalmanOdometry] x:%f, y:%f, th:%f\n", this->x_r, this->y_r, this->th_r);
 
         double _a[] = {1.0, 0.0, -delta_y,
                       0.0, 1.0, delta_x,
                       0.0, 0.0, 1};
-        Matrix* A = new Matrix(3,3,_a);
+        _A->set(3,3,_a);
 
         double _x[] = {this->x_r, this->y_r, this->th_r};
         // già trasposta
-        X = new Matrix(3,1,_x);
+        X->set(3,1,_x);
 
         // dynamic update of covariance factor
         double covariance_process_factor = (delta_l * this->a) * (delta_l * this->a);
-        // printf("covariance factor = %.10f\n", covariance_process_factor);
+        printf("covariance factor = %.10f\n", covariance_process_factor);
 
-        Q = new Matrix(this->order);
-        *Q = (*Q)*covariance_process_factor; // value to modify
+        Q->setDiagValue(this->order, covariance_process_factor);
+        //*Q = (*Q)*covariance_process_factor; // value to modify
 
-        // Q->print();
+        (*P) = (*_A) * (*P) * (_A->transpose()) + (*Q);
 
-        // printf("ci sonooo 3\n");
-
-        (*P) = (*A) * (*P) * (A->transpose()) + (*Q);
-
-        // P->print();
-
-        Matrix *S = new Matrix(0);
         (*S) = (*H) * (*P) * (H->transpose()) + (*R);
 
-        // S->print();
-
         (*K) = ((*P) * (H->transpose())) * (S->invert());
-
-        // K->print();
     }
 
     void measure(Matrix* Measure)
@@ -166,7 +172,6 @@ class KalmanOdometry
 
     void update()
     {
-        Matrix* Identity = new Matrix(this->order);
         (*P) = ((*Identity) - (*K) * (*H)) * (*P);
     }
 };

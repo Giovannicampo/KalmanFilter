@@ -48,6 +48,11 @@ class Matrix
             : num_cols{m.cols()}, num_rows{m.rows()}, matrix{m.getMatrix()}
         {}
 
+        ~Matrix()
+        {
+            // printf("Deallocating\n");
+        }
+
         void print ()
         {
             for(unsigned short i=0; i<num_rows; i++)
@@ -232,7 +237,7 @@ class Matrix
                 // printf("[Matrix] Calcolo il cofattore di [%d,%d] della matrice %dx%d: \n",j,0,num_cols, num_cols);
                 double val = this->cofattore(j,0) * this->matrix[j][0];
                 *det += val;
-                printf("[Matrix] determinante locale: %f\n", val);
+                // printf("[Matrix] determinante locale: %f\n", val);
 
             }
             // printf("\n");
@@ -297,6 +302,40 @@ class Matrix
             Matrix M(this->num_cols,this->num_rows,inverted_matrix);
             M = M.transpose();
             return M * (1/det);
+        }
+
+        void set (unsigned int _num_rows, unsigned int _num_cols, double _matrix[])
+        {
+            delete this->matrix;
+            this->num_rows = _num_rows;
+            this->num_cols = _num_cols;
+            this->matrix = new double*[num_rows];
+            for(unsigned short i=0; i<num_rows; i++){
+                this->matrix[i] = new double[num_cols];
+                for(unsigned short j=0; j<num_cols; j++)
+                {
+                    matrix[i][j] = _matrix[j + num_cols*i];
+                }
+            }
+        }
+
+        void setDiagValue (unsigned int order, double value)
+        {
+            delete this->matrix;
+            this->num_cols = order;
+            this->num_rows = order;
+            this->matrix = new double*[num_rows];
+            for(unsigned short i=0; i<order; i++){
+                this->matrix[i] = new double[num_cols];
+                for(unsigned short j=0; j<order; j++)
+                {
+                    if(i == j){
+                        matrix[i][j] = value;
+                        continue;
+                    }
+                    matrix[i][j] = 0.0;
+                }
+            }
         }
 
 };
