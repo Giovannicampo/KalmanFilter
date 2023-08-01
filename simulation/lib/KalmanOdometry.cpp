@@ -153,8 +153,11 @@ class KalmanOdometry
         (*P) = (*_A) * (*P) * (_A->transpose()) + (*Q);
 
         (*S) = (*H) * (*P) * (H->transpose()) + (*R);
+        printf("S\n");
+        S->print();
 
         (*K) = ((*P) * (H->transpose())) * (S->invert());
+        K->print();
     }
 
     void measure(Matrix* Measure)
