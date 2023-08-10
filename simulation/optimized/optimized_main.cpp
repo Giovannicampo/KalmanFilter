@@ -28,8 +28,8 @@ int main ()
     ko->y_r = 100.0;
     unsigned int i = 0;
 
-    double _measures[3] = {0.0, 0.0, 0.0};
-    Matrix* Measures = new Matrix(3,1,_measures);
+    double _measures[3][1] = {{0.0}, {0.0}, {0.0}};
+    // Matrix* Measures = new Matrix(3,1,_measures);
 
     while(t < 150000)
     {
@@ -48,12 +48,12 @@ int main ()
         ++hist_measure[_measure];
         // printf("[Main] Normal random: %f\n", _measure);
         
-        _measures[1] = _measure;
+        _measures[1][0] = _measure;
 
         // già trasposta
-        Measures->set(3,1,_measures);
+        // Measures->set(3,1,_measures);
 
-        ko->measure(Measures);
+        ko->measure(_measures);
         ko->update();
 
         ++hist_prediction[ko->y_r];
