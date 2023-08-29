@@ -1,4 +1,3 @@
-#include "lib/optimized_matrix.cpp"
 #include "lib/optimized_kalmanOdometry.cpp"
 #include <iostream>
 #include <iomanip>
