@@ -21,7 +21,7 @@ Our project consists in designing a Kalman filter for our two-wheeled robots, in
 - for documentation, check [docs/](docs/)
 - code for Kalman filter **simulation** in [simulation/](simulation/)
 
-- library code for **optimized Kalman filter** in [optimized](optimized/)
+- library code for **optimized Kalman filter** in [optimized/](optimized/)
 
 - for case study data and plots check [case_study/](case_study/)
 
